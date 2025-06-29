@@ -106,7 +106,7 @@ async function getUserBlogPosts(userId: string) {
     ORDER BY created_at DESC 
     LIMIT 3
   `;
-    return posts.map((post) => post.content).join("\n\n");
+    return posts.map((post: { content: string }) => post.content).join("\n\n");
   } catch (error) {
     console.error("Error getting user blog posts", error);
     throw error;
