@@ -4,11 +4,9 @@ export default async function getDbConnection() {
   if (!process.env.DATABASE_URL) {
     console.warn("DATABASE_URL is not defined - using fallback");
     // Return a mock connection for development/testing
-    return {
-      sql: async (strings: any, ...values: any[]) => {
-        console.log("Mock database query:", strings, values);
-        return [];
-      }
+    return async (strings: any, ...values: any[]) => {
+      console.log("Mock database query:", strings, values);
+      return [];
     };
   }
   
