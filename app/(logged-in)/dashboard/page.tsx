@@ -47,7 +47,13 @@ export default async function Dashboard() {
   const isProPlan = planTypeId === "pro";
 
   // check number of posts per plan
-  const posts = await sql`SELECT * FROM posts WHERE user_id = ${userId}`;
+  let posts: any[] = [];
+  try {
+    posts = await sql`SELECT * FROM posts WHERE user_id = ${userId}`;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    posts = [];
+  }
 
   const isValidBasicPlan = isBasicPlan && posts.length < 3;
 
