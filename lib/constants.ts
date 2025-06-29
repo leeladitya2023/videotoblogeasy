@@ -1,5 +1,14 @@
 export const plansMap = [
   {
+    id: "free",
+    name: "Free",
+    description: "Get started for free!",
+    price: "0",
+    items: ["10 Transcriptions per day", "Basic Blog Posts"],
+    paymentLink: "#",
+    priceId: "",
+  },
+  {
     id: "basic",
     name: "Basic",
     description: "Get started with VideoToBlog!",

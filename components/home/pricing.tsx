@@ -20,7 +20,8 @@ export default function Pricing() {
                 <div
                   className={cn(
                     "relative flex flex-col h-full gap-6 lg:gap-8 z-10 p-8 rounded-2xl border border-gray-200 bg-white shadow-lg hover:shadow-xl transition-all duration-300",
-                    id === "pro" && "border-blue-500 border-2 shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50"
+                    id === "pro" && "border-blue-500 border-2 shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50",
+                    id === "free" && "border-green-300 border-2 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50"
                   )}
                 >
                   <div className="flex justify-between items-center gap-4">
@@ -35,6 +36,11 @@ export default function Pricing() {
                         Popular
                       </div>
                     )}
+                    {id === "free" && (
+                      <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        Free
+                      </div>
+                    )}
                   </div>
                   <div className="flex gap-2">
                     <p className="text-5xl tracking-tight font-extrabold text-gray-900">
@@ -44,13 +50,20 @@ export default function Pricing() {
                       <p className="text-xs text-gray-500 uppercase font-semibold">
                         USD
                       </p>
-                      <p className="text-xs text-gray-500">/month</p>
+                      <p className="text-xs text-gray-500">
+                        {id === "free" ? "" : "/month"}
+                      </p>
                     </div>
                   </div>
                   <ul className="space-y-3 leading-relaxed text-base flex-1">
                     {items.map((item, idx) => (
                       <li className="flex items-center gap-3" key={idx}>
-                        <div className="w-5 h-5 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                        <div className={cn(
+                          "w-5 h-5 rounded-full flex items-center justify-center",
+                          id === "free" 
+                            ? "bg-gradient-to-r from-green-500 to-emerald-600"
+                            : "bg-gradient-to-r from-blue-500 to-indigo-600"
+                        )}>
                           <CheckIcon size={12} className="text-white" />
                         </div>
                         <span className="text-gray-700">{item}</span>
@@ -58,20 +71,34 @@ export default function Pricing() {
                     ))}
                   </ul>
                   <div className="space-y-2">
-                    <Button
-                      variant={"link"}
-                      className={cn(
-                        "w-full border-2 rounded-xl flex gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 transition-all duration-300 hover:shadow-lg",
-                        id === "pro" && "shadow-lg"
-                      )}
-                    >
-                      <Link
-                        href={paymentLink}
-                        className="flex gap-2 items-center w-full justify-center"
+                    {id === "free" ? (
+                      <Button
+                        variant={"link"}
+                        className="w-full border-2 rounded-xl flex gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 transition-all duration-300 hover:shadow-lg"
                       >
-                        Get VideoToBlog <ArrowRight size={18} />
-                      </Link>
-                    </Button>
+                        <Link
+                          href="/sign-up"
+                          className="flex gap-2 items-center w-full justify-center"
+                        >
+                          Get Started Free <ArrowRight size={18} />
+                        </Link>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant={"link"}
+                        className={cn(
+                          "w-full border-2 rounded-xl flex gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-3 transition-all duration-300 hover:shadow-lg",
+                          id === "pro" && "shadow-lg"
+                        )}
+                      >
+                        <Link
+                          href={paymentLink}
+                          className="flex gap-2 items-center w-full justify-center"
+                        >
+                          Get VideoToBlog <ArrowRight size={18} />
+                        </Link>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
