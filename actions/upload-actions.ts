@@ -4,8 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import OpenAI from "openai";
 
+// Check if OpenAI API key is available
+if (!process.env.OPENAI_API_KEY) {
+  console.warn("OPENAI_API_KEY is not defined");
+}
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || "",
 });
 
 export async function transcribeUploadedFile(
@@ -13,6 +18,14 @@ export async function transcribeUploadedFile(
     serverData: { userId: string; file: any };
   }[]
 ) {
+  if (!process.env.OPENAI_API_KEY) {
+    return {
+      success: false,
+      message: "OpenAI API key is not configured",
+      data: null,
+    };
+  }
+
   if (!resp) {
     return {
       success: false,

@@ -2,8 +2,21 @@ import { neon } from "@neondatabase/serverless";
 
 export default async function getDbConnection() {
   if (!process.env.DATABASE_URL) {
-    throw new Error("Neon Database URL is not defined");
+    console.warn("DATABASE_URL is not defined - using fallback");
+    // Return a mock connection for development/testing
+    return {
+      sql: async (strings: any, ...values: any[]) => {
+        console.log("Mock database query:", strings, values);
+        return [];
+      }
+    };
   }
-  const sql = neon(process.env.DATABASE_URL);
-  return sql;
+  
+  try {
+    const sql = neon(process.env.DATABASE_URL);
+    return sql;
+  } catch (error) {
+    console.error("Database connection error:", error);
+    throw new Error("Failed to connect to database");
+  }
 }
